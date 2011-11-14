@@ -1,0 +1,17 @@
+-> Uses HTTPS
+-> host is guzzoni.apple.com
+-> Request is an ACE http request (custom HTTP method)
+-> Requests and responses are *streamed* (no luck trying to re-use any existing HTTP tools. HTTP content-lenght is ~20 Gb)
+-> Body of request is as follow :
+ 0xAACCEE02 : Magic number (notice the 'ACE' again)
+ *** = zlib compressed data. (header is 0x78DA). Once uncompressed, you get :
+     0x030000ABAB : "ping" command. You can ignore. ABAB is the ping id. It's autoincremented, starts at 1
+     0x020000ABCD : Packet marker. ABCD = packet length
+       *** packet content. This is actually a binary property list
+     -- loop for some more packets
+
+
+ Audio data flows in as speex_wideband by default. You can decompress using the speex library. Managed to uncompress using the following parameters :
+ - framesize = 320
+ - packet size = 139 (For some reason the audio packets in the plist are 695 bytes long, and 695 = 139*5, so they probably cram 5 speex packets in each plist)
+ - sample rate is 16Khz

@@ -1,0 +1,1 @@
+ffmpeg -i tentative.aiff -acodec pcm_s16le -f rawvideo out.raw
