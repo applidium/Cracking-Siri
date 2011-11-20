@@ -24,7 +24,7 @@ module SiriServer
   def post_init
     start_tls(:cert_chain_file => "./server.passless.crt",
               :private_key_file => "./server.passless.key",
-              :verify_peer => false)
+              :verify_peer => true)
   end
 
   def receive_binary_data(data)
