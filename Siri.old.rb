@@ -86,7 +86,7 @@ end
 class SiriClient < EventMachine::Connection
   def connection_completed
     puts "Guzzoni TCP connection established. Setting up SSL layer"
-    start_tls(:verify_peer => false)
+    start_tls(:verify_peer => true)
   end
 
   def ssl_handshake_completed
@@ -94,7 +94,7 @@ class SiriClient < EventMachine::Connection
     @siriOutputStream = Siri::OutputStream.new
     @siriInputStream = Siri::InputStream.new
 
-    send_data ["ACE /ace HTTP/1.0", "Host: guzzoni.apple.com", "User-Agent: Assistant(iPhone/iPhone4,1; iPhone OS/5.0/9A334) Ace/1.0", "Content-Length: 2000000000", "X-Ace-Host: COMMENTED_OUT"].join("\r\n") + "\r\n\r\n"
+    send_data ["ACE /ace HTTP/1.0", "Host: guzzoni.apple.com", "User-Agent: Assistant(iPhone/iPhone4,1; iPhone OS/5.0.1/9A404) Ace/1.0", "Content-Length: 2000000000", "X-Ace-Host: COMMENTED_OUT"].join("\r\n") + "\r\n\r\n"
     puts "Sent HTTP headers"
     send_data @siriOutputStream.content_header
     puts "Sent content header !"
@@ -129,7 +129,7 @@ class SiriClient < EventMachine::Connection
           :fieldLabel => "",
           :prefixText => "",
           :language => "fr-FR",
-          :censorSpeech => false,
+          :censorSpeech => true,
           :selectedText => "",
           :codec => "Speex_WB_Quality8",
           :audioSource => "BuiltInMic",
